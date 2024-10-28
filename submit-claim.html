@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Claim - ClaimChain</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .step-indicator {
+            transition: all 0.3s ease;
+        }
+        
+        .step-content {
+            display: none;
+        }
+        
+        .step-content.active {
+            display: block;
+        }
+
+        .progress-bar {
+            transition: width 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-b from-gray-50 to-gray-100 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <a href="index.html" class="flex items-center">
+                    <span class="text-2xl font-bold text-blue-600">ClaimChain</span>
+                </a>
+                <div class="text-sm text-gray-600">
+                    Need help? Call 1-800-CLAIM
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-8">
+        <!-- Progress Bar -->
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+            <div class="flex justify-between mb-4">
+                <span class="text-sm font-medium" id="progress-text">Step 1 of 4</span>
+                <span class="text-sm text-gray-500" id="time-estimate">Est. time: 10-15 mins</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-2">
+                <div class="progress-bar bg-blue-600 h-2 rounded-full" style="width: 25%"></div>
+            </div>
+        </div>
+
+        <!-- Step Indicators -->
+        <div class="flex justify-between mb-8">
+            <div class="step-indicator flex-1 text-center">
+                <div class="w-8 h-8 bg-blue-600 text-white rounded-full mx-auto flex items-center justify-center">1</div>
+                <span class="text-sm mt-2">Basic Info</span>
+            </div>
+            <div class="step-indicator flex-1 text-center">
+                <div class="w-8 h-8 bg-gray-300 text-gray-600 rounded-full mx-auto flex items-center justify-center">2</div>
+                <span class="text-sm mt-2">Damage Details</span>
+            </div>
+            <div class="step-indicator flex-1 text-center">
+                <div class="w-8 h-8 bg-gray-300 text-gray-600 rounded-full mx-auto flex items-center justify-center">3</div>
+                <span class="text-sm mt-2">Documentation</span>
+            </div>
+            <div class="step-indicator flex-1 text-center">
+                <div class="w-8 h-8 bg-gray-300 text-gray-600 rounded-full mx-auto flex items-center justify-center">4</div>
+                <span class="text-sm mt-2">Review</span>
+            </div>
+        </div>
+
+        <!-- Form Steps -->
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <!-- Step 1: Basic Info -->
+            <div class="step-content active" id="step1">
+                <h2 class="text-xl font-bold mb-6">Basic Information</h2>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Property Type</label>
+                        <select id="propertyType" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2">
+                            <option value="residential">Residential</option>
+                            <option value="commercial">Commercial</option>
+                            <option value="industrial">Industrial</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Property Location</label>
+                        <input type="text" id="location" placeholder="Street Address" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">City</label>
+                            <input type="text" id="city" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">State</label>
+                            <input type="text" id="state" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">When did you discover the damage?</label>
+                        <input type="date" id="discoveryDate" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2">
+                    </div>
+
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <h3 class="text-sm font-medium text-blue-800">How Our Process Is Different</h3>
+                        <p class="text-sm text-blue-600 mt-1">
+                            Your claim will be reviewed by multiple independent adjusters, ensuring fair and accurate assessment.
+                            All documentation is permanently recorded and can't be altered.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="mt-8 flex justify-between">
+                <button onclick="prevStep()" class="bg-gray-200 text-gray-600 px-6 py-2 rounded-lg hover:bg-gray-300 transition-colors hidden" id="prevButton">
+                    Previous
+                </button>
+                <button onclick="nextStep()" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors ml-auto" id="nextButton">
+                    Continue
+                </button>
+            </div>
+        </div>
+
+        <!-- Information Panel -->
+        <div class="mt-8 bg-white rounded-lg shadow-lg p-6">
+            <h3 class="text-lg font-semibold mb-4">What Happens Next?</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="flex items-start">
+                    <div class="flex-shrink-0">
+                        <div class="w-8 h-8 bg-green-100 text-green-600 rounded-full flex items-center justify-center">1</div>
+                    </div>
+                    <div class="ml-4">
+                        <h4 class="text-sm font-medium">Multiple Reviews</h4>
+                        <p class="text-sm text-gray-500">Your claim is reviewed by 3+ independent adjusters</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start">
+                    <div class="flex-shrink-0">
+                        <div class="w-8 h-8 bg-green-100 text-green-600 rounded-full flex items-center justify-center">2</div>
+                    </div>
+                    <div class="ml-4">
+                        <h4 class="text-sm font-medium">Weather Verification</h4>
+                        <p class="text-sm text-gray-500">Automated weather data confirmation</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start">
+                    <div class="flex-shrink-0">
+                        <div class="w-8 h-8 bg-green-100 text-green-600 rounded-full flex items-center justify-center">3</div>
+                    </div>
+                    <div class="ml-4">
+                        <h4 class="text-sm font-medium">Fair Settlement</h4>
+                        <p class="text-sm text-gray-500">Transparent process with no hidden decisions</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        const totalSteps = 4;
+
+        function updateProgress() {
+            const progress = (currentStep / totalSteps) * 100;
+            document.querySelector('.progress-bar').style.width = `${progress}%`;
+            document.getElementById('progress-text').textContent = `Step ${currentStep} of ${totalSteps}`;
+        }
+
+        function nextStep() {
+            // This is just the first step - we'll add form validation and the next steps
+            // in subsequent code updates
+            alert('Additional steps will be added in the next update. This demonstrates the initial flow.');
+        }
+
+        function prevStep() {
+            if (currentStep > 1) {
+                currentStep--;
+                updateProgress();
+                // Show/hide appropriate step content
+            }
+        }
+
+        // Initialize tooltips or other UI elements if needed
+        document.addEventListener('DOMContentLoaded', function() {
+            updateProgress();
+        });
+    </script>
+</body>
+</html>
