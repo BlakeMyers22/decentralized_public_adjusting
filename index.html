@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClaimChain: Transparent Property Claim Network</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        .transition-height {
+            transition: max-height 0.3s ease-out;
+            max-height: 0;
+            overflow: hidden;
+        }
+        
+        .transition-height.active {
+            max-height: 500px;
+        }
+
+        .problem-card {
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+
+        .problem-card.visible {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-b from-gray-50 to-gray-100 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <span class="text-2xl font-bold text-blue-600">ClaimChain</span>
+                </div>
+                <div class="flex space-x-4">
+                    <button onclick="showContent('property-owners')" class="text-gray-600 hover:text-blue-600 transition-colors px-3 py-2">
+                        For Property Owners
+                    </button>
+                    <button onclick="showContent('adjusters')" class="text-gray-600 hover:text-blue-600 transition-colors px-3 py-2">
+                        For Public Adjusters
+                    </button>
+                    <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                        Try Demo
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="container mx-auto px-4 py-12">
+        <div class="text-center max-w-3xl mx-auto">
+            <h1 class="text-4xl font-bold mb-6">
+                Fair Property Claims Through 
+                <span class="text-blue-600">Transparent Network Power</span>
+            </h1>
+            <p class="text-xl text-gray-600 mb-8">
+                No more hidden decisions. No more unexplained denials.<br>
+                Just fair, transparent property claim settlements.
+            </p>
+            <div class="flex justify-center space-x-4">
+                <button onclick="location.href='submit-claim.html'" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors text-lg">
+                    File a Claim
+                </button>
+                <button onclick="location.href='adjuster-signup.html'" class="border-2 border-blue-600 text-blue-600 px-6 py-3 rounded-lg hover:bg-blue-50 transition-colors text-lg">
+                    Join as Adjuster
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Problem Cards -->
+    <div class="container mx-auto px-4 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="problem-card bg-white p-6 rounded-xl shadow-lg">
+                <div class="text-red-500 text-4xl mb-4">✗</div>
+                <h3 class="text-xl font-semibold mb-2">Insurance Company Control</h3>
+                <p class="text-gray-600">Documents altered, claims denied without explanation, decisions hidden behind closed doors.</p>
+                <div class="mt-4 text-green-600 font-semibold">
+                    Our Solution: Immutable Records
+                </div>
+            </div>
+            
+            <div class="problem-card bg-white p-6 rounded-xl shadow-lg">
+                <div class="text-red-500 text-4xl mb-4">✗</div>
+                <h3 class="text-xl font-semibold mb-2">Biased Assessments</h3>
+                <p class="text-gray-600">Single adjuster decisions, pressure from insurance companies, limited oversight.</p>
+                <div class="mt-4 text-green-600 font-semibold">
+                    Our Solution: Multiple Independent Reviews
+                </div>
+            </div>
+            
+            <div class="problem-card bg-white p-6 rounded-xl shadow-lg">
+                <div class="text-red-500 text-4xl mb-4">✗</div>
+                <h3 class="text-xl font-semibold mb-2">Delayed Settlements</h3>
+                <p class="text-gray-600">Endless waiting, no updates, unclear status, bureaucratic delays.</p>
+                <div class="mt-4 text-green-600 font-semibold">
+                    Our Solution: Transparent Timeline
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Live Demo Section -->
+    <div class="container mx-auto px-4 py-12">
+        <div class="bg-white rounded-xl shadow-lg p-8">
+            <h2 class="text-2xl font-bold mb-6">See It In Action</h2>
+            <div class="border rounded-lg p-4">
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-semibold">Active Claim #1234</h3>
+                        <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-sm">In Progress</span>
+                    </div>
+                    
+                    <div id="timeline" class="space-y-4">
+                        <!-- Timeline items will be added here by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Animate problem cards on scroll
+        function checkScroll() {
+            const cards = document.querySelectorAll('.problem-card');
+            cards.forEach(card => {
+                const cardTop = card.getBoundingClientRect().top;
+                if (cardTop < window.innerHeight - 100) {
+                    card.classList.add('visible');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', checkScroll);
+        checkScroll(); // Initial check
+
+        // Demo timeline data
+        const timelineEvents = [
+            {
+                time: '2 minutes ago',
+                title: 'Weather Data Verified',
+                description: 'Confirmed: 1.5" hail at property location'
+            },
+            {
+                time: '15 minutes ago',
+                title: 'Adjuster #2 Assessment Added',
+                description: 'Damage verified in north and east roof sections'
+            },
+            {
+                time: '1 hour ago',
+                title: 'Claim Documentation Uploaded',
+                description: 'Initial damage photos and description added'
+            }
+        ];
+
+        // Add timeline events
+        const timeline = document.getElementById('timeline');
+        timelineEvents.forEach(event => {
+            const eventElement = document.createElement('div');
+            eventElement.className = 'bg-gray-50 p-4 rounded';
+            eventElement.innerHTML = `
+                <div class="flex justify-between">
+                    <span class="text-sm font-medium">${event.title}</span>
+                    <span class="text-sm text-gray-500">${event.time}</span>
+                </div>
+                <p class="text-sm mt-1">${event.description}</p>
+            `;
+            timeline.appendChild(eventElement);
+        });
+
+        // Handle content switching
+        function showContent(type) {
+            // This will be implemented in the next step
+            console.log(`Showing content for: ${type}`);
+        }
+    </script>
+</body>
+</html>
